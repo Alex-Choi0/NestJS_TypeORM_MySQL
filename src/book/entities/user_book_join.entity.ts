@@ -1,6 +1,14 @@
 // user_book_join.entity.ts : src/book/entities
 
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
+import { Book } from './book.entity';
 
 @Entity()
 export class User_Book_Join {
@@ -22,4 +30,10 @@ export class User_Book_Join {
 
   @CreateDateColumn({ readonly: true })
   created_at: Date;
+
+  @ManyToOne(() => User, (users) => users.id)
+  users: User;
+
+  @ManyToOne(() => Book, (books) => books.id)
+  books: Book;
 }
