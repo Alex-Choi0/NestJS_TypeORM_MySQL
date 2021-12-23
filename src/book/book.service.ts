@@ -1,26 +1,43 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { Book } from './entities/book.entity';
 
 @Injectable()
 export class BookService {
-  create(createBookDto: CreateBookDto) {
-    return 'This action adds a new book';
+  constructor(
+    @InjectRepository(Book)
+    private readonly bookRepository: Repository<Book>,
+  ) {}
+
+  async create(createBookDto: CreateBookDto) {
+    const createData = this.bookRepository.create(createBookDto);
+
+    // 생성한 users레코드 삽입
+    await this.bookRepository.save(createData);
+
+    // 생성한 레코드를 Controller로 return
+    return createData;
   }
 
-  findAll() {
-    return `This action returns all book`;
+  async findAll() {
+    return await this.bookRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
+  async findOne(id: number) {
+    return await this.bookRepository.findOne(id);
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
+  async update(id: number, updateBookDto: UpdateBookDto) {
+    return await this.bookRepository.save({
+      id,
+      title: updateBookDto.title,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} book`;
+  async remove(id: number) {
+    return await this.bookRepository.delete(id);
   }
 }

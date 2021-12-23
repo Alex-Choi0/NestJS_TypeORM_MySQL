@@ -16,7 +16,7 @@ export class Book {
   @Column({
     nullable: false,
   })
-  comment: string;
+  title: string;
 
   @CreateDateColumn({ readonly: true })
   created_at: Date;
