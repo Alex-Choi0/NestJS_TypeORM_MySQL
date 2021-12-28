@@ -31,9 +31,9 @@ export class User_Book_Join {
   @CreateDateColumn({ readonly: true })
   created_at: Date;
 
-  @ManyToOne(() => User, (users) => users.id)
-  users: User;
+  @ManyToOne(() => User, (user) => user.id)
+  user: User;
 
-  @ManyToOne(() => Book, (books) => books.id)
-  books: Book;
+  @ManyToOne(() => Book, (book) => book.id)
+  book: Book;
 }
