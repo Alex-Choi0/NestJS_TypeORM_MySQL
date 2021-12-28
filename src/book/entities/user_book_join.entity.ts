@@ -31,7 +31,9 @@ export class User_Book_Join {
   @CreateDateColumn({ readonly: true })
   created_at: Date;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'CASCADE', // 해당 user레코드가 삭제시 CASCADE사용(연관 레코드 삭제)
+  })
   user: User;
 
   @ManyToOne(() => Book, (book) => book.id)
